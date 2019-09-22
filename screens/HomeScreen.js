@@ -19,20 +19,7 @@ export default function HomeScreen() {
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
       >
-        <View style={styles.welcomeContainer}>
-          <Image
-            source={
-              __DEV__
-                ? require('../assets/images/robot-dev.png')
-                : require('../assets/images/robot-prod.png')
-            }
-            style={styles.welcomeImage}
-          />
-        </View>
-
         <View style={styles.getStartedContainer}>
-          <DevelopmentModeNotice />
-
           <Text style={styles.getStartedText}>Get started by opening</Text>
 
           <View
@@ -42,14 +29,6 @@ export default function HomeScreen() {
           </View>
 
           <Text style={styles.getStartedText}>Yooo</Text>
-        </View>
-
-        <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-            <Text style={styles.helpLinkText}>
-              Help, it didn’t automatically reload!
-            </Text>
-          </TouchableOpacity>
         </View>
       </ScrollView>
 
