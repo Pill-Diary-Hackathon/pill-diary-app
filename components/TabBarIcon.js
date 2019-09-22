@@ -4,6 +4,7 @@ import {
   AntDesign,
   Entypo,
   MaterialCommunityIcons,
+  Foundation,
 } from '@expo/vector-icons';
 
 import Colors from '../constants/Colors';
@@ -34,6 +35,15 @@ export default function TabBarIcon(props) {
     case 'Entypo':
       return (
         <Entypo
+          name={name}
+          size={26}
+          style={{ marginBottom: -3 }}
+          color={focused ? Colors.tabIconSelected : Colors.tabIconDefault}
+        />
+      );
+    case 'Foundation':
+      return (
+        <Foundation
           name={name}
           size={26}
           style={{ marginBottom: -3 }}
