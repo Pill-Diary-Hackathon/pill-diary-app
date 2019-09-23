@@ -23,7 +23,7 @@ const HomeStack = createStackNavigator(
 );
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+  tabBarLabel: 'Medications',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name="pill" source="MaterialCommunityIcons" />
   ),

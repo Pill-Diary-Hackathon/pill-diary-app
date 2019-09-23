@@ -1,4 +1,5 @@
 import * as WebBrowser from 'expo-web-browser';
+import { useNavigation } from 'react-navigation-hooks';
 import React from 'react';
 import {
   Image,
@@ -9,8 +10,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
+import { Header, Icon } from 'react-native-elements';
 import { MonoText } from '../components/StyledText';
+import { MedicationList } from '../components/MedicationList';
 
 export default function HomeScreen() {
   return (
@@ -19,7 +21,9 @@ export default function HomeScreen() {
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
       >
-        <View style={styles.getStartedContainer}>
+        <MedicationList />
+
+        {/* <View style={styles.getStartedContainer}>
           <Text style={styles.getStartedText}>Get started by opening</Text>
 
           <View
@@ -29,10 +33,10 @@ export default function HomeScreen() {
           </View>
 
           <Text style={styles.getStartedText}>Yooo</Text>
-        </View>
+          </View> */}
       </ScrollView>
 
-      <View style={styles.tabBarInfoContainer}>
+      {/* <View style={styles.tabBarInfoContainer}>
         <Text style={styles.tabBarInfoText}>
           This is a tab bar. You can edit it in:
         </Text>
@@ -43,14 +47,27 @@ export default function HomeScreen() {
           <MonoText style={styles.codeHighlightText}>
             navigation/MainTabNavigator.js
           </MonoText>
-        </View>
-      </View>
+        </View> 
+      </View> */}
     </View>
   );
 }
 
+function NewMedicationButton() {
+  const { navigate } = useNavigation();
+  return <Icon name="add" color="#fff" onPress={() => navigate('Links')} />;
+}
+
 HomeScreen.navigationOptions = {
-  header: null,
+  header: (
+    <Header
+      centerComponent={{
+        text: 'Medication List',
+        style: { color: '#fff', fontSize: 20 },
+      }}
+      rightComponent={<NewMedicationButton />}
+    />
+  ),
 };
 
 function DevelopmentModeNotice() {
