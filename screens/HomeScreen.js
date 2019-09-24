@@ -10,13 +10,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Header, Icon } from 'react-native-elements';
+import { Header, Icon, Button } from 'react-native-elements';
 import { MonoText } from '../components/StyledText';
 import { MedicationList } from '../components/MedicationList';
 import {
   setupNotificationResponses,
   notificationTest,
 } from '../notifications/notifications';
+import { DailySchedule } from '../components/DailySchedule';
 
 export default function HomeScreen() {
   const { navigate } = useNavigation();
@@ -27,11 +28,23 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
+      <View>
+        <Text>Welcome to Your Pill Diary!</Text>
+        <Button
+          onPress={() => navigate('Profile')}
+          title={'Tap here to set up your profile and schedule'}
+        />
+      </View>
+      <View style={{ height: 50 }} />
+      <Text>Your Schedule for Today:</Text>
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
       >
-        <MedicationList />
+        {/* <MedicationList /> */}
+        <View style={styles.mainContainer}>
+          <DailySchedule />
+        </View>
       </ScrollView>
     </View>
   );
@@ -104,7 +117,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingTop: 30,
   },
-  welcomeContainer: {
+  mainContainer: {
     alignItems: 'center',
     marginTop: 10,
     marginBottom: 20,

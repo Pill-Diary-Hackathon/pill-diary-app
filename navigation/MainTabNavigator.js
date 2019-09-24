@@ -7,7 +7,7 @@ import {
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
 const config = Platform.select({
@@ -15,40 +15,22 @@ const config = Platform.select({
   default: {},
 });
 
-const HomeStack = createStackNavigator(
+const ScheduleStack = createStackNavigator(
   {
     Home: HomeScreen,
+    Profile: ProfileScreen,
   },
   config
 );
 
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Medications',
+ScheduleStack.navigationOptions = {
+  tabBarLabel: 'Schedule',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name="pill" source="MaterialCommunityIcons" />
   ),
 };
 
-HomeStack.path = '';
-
-const LinksStack = createStackNavigator(
-  {
-    Links: LinksScreen,
-  },
-  config
-);
-
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Schedule',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-calendar' : 'md-calendar'}
-    />
-  ),
-};
-
-LinksStack.path = '';
+ScheduleStack.path = '';
 
 const SettingsStack = createStackNavigator(
   {
@@ -70,8 +52,7 @@ SettingsStack.navigationOptions = {
 SettingsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
+  ScheduleStack,
   SettingsStack,
 });
 

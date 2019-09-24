@@ -43,6 +43,7 @@ export const notificationTest = async () => {
     body: 'Drug 1\nDrug2',
     categoryId: 'ps1',
     android: { sticky: false },
+    data: {},
   };
 
   const schedulingOptions = { time: new Date().getTime() + 2000 };
