@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import { useNavigation } from 'react-navigation-hooks';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Image,
   Platform,
@@ -13,8 +13,18 @@ import {
 import { Header, Icon } from 'react-native-elements';
 import { MonoText } from '../components/StyledText';
 import { MedicationList } from '../components/MedicationList';
+import {
+  setupNotificationResponses,
+  notificationTest,
+} from '../notifications/notifications';
 
 export default function HomeScreen() {
+  const { navigate } = useNavigation();
+  useEffect(() => {
+    setupNotificationResponses(navigate);
+    // notificationTest();
+  }, []);
+
   return (
     <View style={styles.container}>
       <ScrollView
@@ -22,33 +32,7 @@ export default function HomeScreen() {
         contentContainerStyle={styles.contentContainer}
       >
         <MedicationList />
-
-        {/* <View style={styles.getStartedContainer}>
-          <Text style={styles.getStartedText}>Get started by opening</Text>
-
-          <View
-            style={[styles.codeHighlightContainer, styles.homeScreenFilename]}
-          >
-            <MonoText>screens/HomeScreen.js</MonoText>
-          </View>
-
-          <Text style={styles.getStartedText}>Yooo</Text>
-          </View> */}
       </ScrollView>
-
-      {/* <View style={styles.tabBarInfoContainer}>
-        <Text style={styles.tabBarInfoText}>
-          This is a tab bar. You can edit it in:
-        </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.navigationFilename]}
-        >
-          <MonoText style={styles.codeHighlightText}>
-            navigation/MainTabNavigator.js
-          </MonoText>
-        </View> 
-      </View> */}
     </View>
   );
 }
