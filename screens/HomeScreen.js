@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import { useNavigation } from 'react-navigation-hooks';
-import React, { useEffect } from 'react';
+import React, { useEffect, useGlobal } from 'reactn';
 import {
   Image,
   Platform,
@@ -18,8 +18,23 @@ import {
   notificationTest,
 } from '../notifications/notifications';
 import { DailySchedule } from '../components/DailySchedule';
+import axios from 'axios';
 
 export default function HomeScreen() {
+  const [user, setUser] = useGlobal('user');
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(
+          'http://172.18.229.106:5000/api/Patient'
+        );
+        console.log(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchData();
+  }, []);
   const { navigate } = useNavigation();
   useEffect(() => {
     setupNotificationResponses(navigate);
