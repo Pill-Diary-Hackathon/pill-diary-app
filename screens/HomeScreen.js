@@ -59,7 +59,7 @@ HomeScreen.navigationOptions = {
   header: (
     <Header
       centerComponent={{
-        text: 'Medication List',
+        text: 'Medication Schedule',
         style: { color: '#fff', fontSize: 20 },
       }}
       rightComponent={<NewMedicationButton />}

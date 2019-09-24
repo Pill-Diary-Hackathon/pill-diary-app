@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'reactn';
 import { Platform } from 'react-native';
 import {
   createStackNavigator,
@@ -8,7 +8,7 @@ import {
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import PillDiaryScreen from '../screens/PillDiaryScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -32,14 +32,14 @@ ScheduleStack.navigationOptions = {
 
 ScheduleStack.path = '';
 
-const SettingsStack = createStackNavigator(
+const PillDiaryStack = createStackNavigator(
   {
-    Settings: SettingsScreen,
+    PillDiary: PillDiaryScreen,
   },
   config
 );
 
-SettingsStack.navigationOptions = {
+PillDiaryStack.navigationOptions = {
   tabBarLabel: 'Pill Diary',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -49,11 +49,11 @@ SettingsStack.navigationOptions = {
   ),
 };
 
-SettingsStack.path = '';
+PillDiaryStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   ScheduleStack,
-  SettingsStack,
+  PillDiaryStack,
 });
 
 tabNavigator.path = '';

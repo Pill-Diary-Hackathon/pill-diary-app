@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'reactn';
 import NavigationTestUtils from 'react-navigation/NavigationTestUtils';
 import renderer from 'react-test-renderer';
 
