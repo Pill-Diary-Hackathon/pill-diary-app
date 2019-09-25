@@ -53,59 +53,122 @@ export default function DailySchedule() {
         const { time, title, medications, type } = item;
         const timeString = time ? time.format('h:m A') : 'Time Not Set Yet';
         return (
-          <TouchableOpacity onPress={null}>
-            <ListItem
-              leftElement={
+          <ListItem
+            leftElement={
+              <View
+                style={{
+                  width: 50,
+                  borderColor: 'blue',
+                  borderWidth: 2,
+                  borderRadius: 3,
+                  overflow: 'hidden',
+                }}
+              >
+                <Text style={{ fontSize: 10, textAlign: 'center' }}>
+                  {timeString}
+                </Text>
+              </View>
+            }
+            title={
+              <View>
                 <View
                   style={{
-                    width: 50,
-                    borderColor: 'blue',
-                    borderWidth: 2,
-                    borderRadius: 3,
-                    overflow: 'hidden',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    alignContent: 'center',
                   }}
                 >
-                  <Text style={{ fontSize: 10, textAlign: 'center' }}>
-                    {timeString}
-                  </Text>
+                  {title ? <Text style={{ padding: 10 }}>{title}</Text> : null}
+                  {type === 'Meal' ? (
+                    <Icon name="food-variant" type="material-community" />
+                  ) : null}
                 </View>
-              }
-              title={
-                <View>
-                  <View
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      alignContent: 'center',
-                    }}
-                  >
-                    {title ? (
-                      <Text style={{ padding: 10 }}>{title}</Text>
-                    ) : null}
-                    {type === 'Meal' ? (
-                      <Icon name="food-variant" type="material-community" />
-                    ) : null}
-                  </View>
 
-                  {medications.map(medication => {
-                    const { id, title: medTitle, numPills, taken } = medication;
-                    return (
-                      <ListItem
-                        titleStyle={styles.medicationItem}
-                        key={id}
-                        title={`${medTitle} - (${numPills} pills)`}
-                        bottomDivider
-                        rightElement={
-                          !taken ? <Button title="took it" /> : null
-                        }
-                      />
-                    );
-                  })}
-                </View>
-              }
-              subtitle={null}
-            />
-          </TouchableOpacity>
+                {medications.map(medication => {
+                  const { id, title: medTitle, numPills, taken } = medication;
+                  return (
+                    <ListItem
+                      titleStyle={styles.medicationItem}
+                      key={id}
+                      bottomDivider
+                      title={
+                        <TouchableOpacity onPress={null}>
+                          <View
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'column',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                            }}
+                          >
+                            <View
+                              style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                              }}
+                            >
+                              <Text
+                                style={{ marginRight: 20 }}
+                              >{`${medTitle} - (${numPills} pills)`}</Text>
+                              {taken ? (
+                                <Icon name="checkbox" type="foundation" />
+                              ) : null}
+                            </View>
+                            <View>
+                              {!taken ? (
+                                <View
+                                  style={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                  }}
+                                >
+                                  <Button
+                                    title="Just Took It"
+                                    buttonStyle={styles.buttonStyle}
+                                    titleStyle={styles.buttonTextStyle}
+                                  />
+                                  <Button
+                                    title="Took It Earlier"
+                                    buttonStyle={styles.buttonStyle}
+                                    titleStyle={styles.buttonTextStyle}
+                                  />
+                                  <Button
+                                    title="Missed It"
+                                    buttonStyle={styles.buttonStyle}
+                                    titleStyle={styles.buttonTextStyle}
+                                  />
+                                </View>
+                              ) : (
+                                <View
+                                  style={{
+                                    display: 'flex',
+                                    flexDirection: 'row',
+                                  }}
+                                >
+                                  <Button
+                                    title="Edit"
+                                    buttonStyle={styles.buttonStyle}
+                                    titleStyle={styles.buttonTextStyle}
+                                  />
+                                  <Button
+                                    title="Add Note"
+                                    buttonStyle={styles.buttonStyle}
+                                    titleStyle={styles.buttonTextStyle}
+                                  />
+                                </View>
+                              )}
+                            </View>
+                          </View>
+                        </TouchableOpacity>
+                      }
+                    />
+                  );
+                })}
+              </View>
+            }
+            subtitle={null}
+          />
         );
       }}
       renderSectionHeader={({ section }) =>
@@ -133,6 +196,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(247,247,247,1.0)',
   },
   medicationItem: {
+    fontSize: 10,
+  },
+  buttonStyle: {
+    // width: 20,
+    margin: 5,
+  },
+  buttonTextStyle: {
     fontSize: 10,
   },
 });
