@@ -22,4 +22,12 @@ export default PatientMedicationSchedule = [
     "Time":"14:00",
     "Date":"2019-09-25",
     "Dosage":"20mg"
+    },
+    {
+    "PatientMedicationScheduleId":"4",
+    "PatientId": "508f5798-e303-4c10-9198-59a6da622b2d",
+    "MedicationId":"1",
+    "Time":"21:00",
+    "Date":"2019-09-25",
+    "Dosage":"20mg"
     }]
