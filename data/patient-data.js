@@ -1,4 +1,4 @@
-export default patient = [{
+export const Patient = [{
     "patientId": "508f5798-e303-4c10-9198-59a6da622b2d",
     "firstName": "John",
     "lastName": "Doe",

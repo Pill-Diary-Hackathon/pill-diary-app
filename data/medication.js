@@ -1,4 +1,4 @@
-export default Medication = [
+export const Medication = [
     {
     "MedicationId": "1",
     "MedicationName": "benzoyl-methyl-ecgonine",

@@ -8,9 +8,60 @@ import {
 } from 'react-native';
 import moment from 'moment';
 import { ListItem, Button, Icon } from 'react-native-elements';
-
+import {PatientSchedulePreference, PatientMedicationSchedule, PatientTrialDrugSchedule,Schedule, Medication, Patient, TimeFrequency} from '../../data/index'
 //Meal Times	Frequency	Times to take pill	Medication
 
+const getSchedule = () => {
+  let temp = [];
+  // temp = Schedule.filter( x => x.ScheduleId == PatientTrialDrugSchedule);
+  let patientSchedules = PatientTrialDrugSchedule.filter( x => {return x.PatientId == "08f5798-e303-4c10-9198-59a6da622b2d"});
+  let tempSched;
+  let finalSched = [];
+  // console.log('here');
+  for(let n of patientSchedules) {
+    
+    tempSched = Schedule.filter(x => x.ScheduleId === n.ScheduleId);
+    //console.log(tempSched.length);
+    for(let t of tempSched) {
+      // console.log('here');
+      var patientWakeup, patientSleep, patientPref;
+      patientPref = PatientSchedulePreference.find(x => x.PatientId == "08f5798-e303-4c10-9198-59a6da622b2d");
+      
+      patientWakeup = patientPref.SleepEnd;
+      patientSleep = patientPref.SleepStart;
+      
+      var time = TimeFrequency.find(x => x.TimeFrequencyId == t.TimeFrequencyId);
+      
+      // found time
+      let interval, minutes;
+      let finalTimes = [];
+      let thours,rhours,tminutes,rminutes;
+      if(time) {
+        interval = time.Interval.split(":");
+        // get time interval in minutes
+        minutes = Number(interval[1]) + (Number(interval[0])*60);
+
+        // get start and end times for interval in minutes 
+        patientWakeupInMinutes = (Number(patientWakeup.split(":")[0])*60) + Number(patientWakeup.split(":")[1]);
+        patientSleepInMinutes = (Number(patientSleep.split(":")[0]*60)) + Number(patientSleep.split(":")[1]);
+
+        // from start interval while less than end interval
+        // push the times to final times array
+        // need to add medication
+        while (patientWakeupInMinutes < patientSleepInMinutes) {
+          thours = Number(Number(patientWakeupInMinutes) / 60);
+          rhours = Math.floor(thours);
+          tminutes = (thours - rhours) * 60;
+          rminutes = Math.round(tminutes);
+          finalTimes.push(`${rhours}:${rminutes}`);
+          patientWakeupInMinutes += minutes;
+        }
+      }
+      
+    }
+  }
+};
+getSchedule();
 const dummySchedule = [
   {
     id: 1,

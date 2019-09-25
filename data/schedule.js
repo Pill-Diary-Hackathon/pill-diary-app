@@ -1,4 +1,4 @@
-export default Schedule = [
+export const Schedule = [
     {
     "ScheduleId":"1",
     "ScherduleDesc":"Trial A aspirin schedule",
@@ -29,7 +29,7 @@ export default Schedule = [
         "ScheduleId":"3",
         "ScherduleDesc":"Trial A Ventolin schedule",
         "DayFreq":"1", 
-        "TimeFreq":"1", // every hour
+        "TimeFrequencyId":"1", // every hour
         "Breakfast":null, 
         "Lunch":null, 
         "Dinner":null,
