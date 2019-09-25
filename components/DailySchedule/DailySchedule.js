@@ -13,17 +13,13 @@ import {PatientSchedulePreference, PatientMedicationSchedule, PatientTrialDrugSc
 
 const getSchedule = () => {
   let temp = [];
-  // temp = Schedule.filter( x => x.ScheduleId == PatientTrialDrugSchedule);
   let patientSchedules = PatientTrialDrugSchedule.filter( x => {return x.PatientId == "08f5798-e303-4c10-9198-59a6da622b2d"});
   let tempSched;
   let finalSched = [];
-  // console.log('here');
   for(let n of patientSchedules) {
-    
+    console.log(n);
     tempSched = Schedule.filter(x => x.ScheduleId === n.ScheduleId);
-    //console.log(tempSched.length);
     for(let t of tempSched) {
-      // console.log('here');
       var patientWakeup, patientSleep, patientPref;
       patientPref = PatientSchedulePreference.find(x => x.PatientId == "08f5798-e303-4c10-9198-59a6da622b2d");
       
@@ -56,6 +52,8 @@ const getSchedule = () => {
           finalTimes.push(`${rhours}:${rminutes}`);
           patientWakeupInMinutes += minutes;
         }
+
+
       }
       
     }
