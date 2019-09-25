@@ -1,4 +1,4 @@
-import React from 'reactn';
+import React, { useGlobal } from 'reactn';
 import {
   SectionList,
   TouchableOpacity,
@@ -7,7 +7,8 @@ import {
   StyleSheet,
 } from 'react-native';
 import moment from 'moment';
-import { ListItem, Button, Icon } from 'react-native-elements';
+import { ListItem, Button, Icon, Overlay } from 'react-native-elements';
+import { useEffect } from 'react';
 
 //Meal Times	Frequency	Times to take pill	Medication
 
@@ -15,40 +16,104 @@ const dummySchedule = [
   {
     id: 1,
     title: '',
-    time: moment([2019, 9, 24, 7, 30]),
+    time: moment([2019, 9, 25, 7, 30]),
     medications: [
-      { id: 1, title: 'Morphine', numPills: 3, taken: true },
-      { id: 2, title: 'Temozolomide ', numPills: 1, taken: false },
-      { id: 3, title: 'Regorafanib ', numPills: 1, taken: false },
+      {
+        id: 1,
+        title: 'Morphine',
+        numPills: 3,
+        taken: true,
+        timeTaken: moment([2019, 9, 25, 7, 35]),
+      },
+      {
+        id: 2,
+        title: 'Temozolomide ',
+        numPills: 1,
+        taken: false,
+        timeTaken: undefined,
+      },
+      {
+        id: 3,
+        title: 'Regorafanib ',
+        numPills: 1,
+        taken: false,
+        timeTaken: undefined,
+      },
     ],
   },
   {
     title: 'Before Breakfast',
-    time: undefined,
+    time: moment([2019, 9, 25, 12, 30]),
     medications: [
-      { id: 1, title: 'Pill 1', numPills: 3 },
-      { id: 2, title: 'Pill 2', numPills: 1 },
+      {
+        id: 1,
+        title: 'Pill 1',
+        numPills: 3,
+        taken: false,
+        timeTaken: undefined,
+      },
+      {
+        id: 2,
+        title: 'Pill 2',
+        numPills: 1,
+        taken: false,
+        timeTaken: undefined,
+      },
     ],
   },
   {
     id: 2,
     title: 'Breakfast',
     type: 'Meal',
-    time: undefined,
+    time: moment([2019, 9, 25, 13, 30]),
     medications: [
-      { id: 1, title: 'Pill 1', numPills: 3 },
-      { id: 2, title: 'Pill 2', numPills: 1 },
+      {
+        id: 1,
+        title: 'Pill 1',
+        numPills: 3,
+        taken: false,
+        timeTaken: undefined,
+      },
+      {
+        id: 2,
+        title: 'Pill 2',
+        numPills: 1,
+        taken: false,
+        timeTaken: undefined,
+      },
     ],
   },
 ];
 
 export default function DailySchedule() {
+  const [schedule, setSchedule] = useGlobal('schedule');
+  useEffect(() => {
+    setSchedule(dummySchedule);
+  }, []);
+  const handleMedTakenChange = ({
+    taken,
+    item,
+    index,
+    medication,
+    medIndex,
+  }) => {
+    const updatedMeds = [...item.medications];
+    updatedMeds[medIndex] = {
+      ...updatedMeds[medIndex],
+      taken,
+      timeTaken: taken ? moment() : undefined,
+    };
+    const updatedSection = { ...item, medications: updatedMeds };
+    const updatedSchedule = [...schedule];
+    updatedSchedule[index] = updatedSection;
+    setSchedule(updatedSchedule);
+  };
   return (
     <SectionList
       style={{
         width: '100%',
       }}
-      sections={[{ title: '', data: dummySchedule || [] }]}
+      sections={[{ title: '', data: schedule || [] }]}
       renderItem={({ item, index, section }) => {
         const { time, title, medications, type } = item;
         const timeString = time ? time.format('h:m A') : 'Time Not Set Yet';
@@ -84,13 +149,19 @@ export default function DailySchedule() {
                   ) : null}
                 </View>
 
-                {medications.map(medication => {
-                  const { id, title: medTitle, numPills, taken } = medication;
+                {medications.map((medication, medIndex) => {
+                  const {
+                    id,
+                    title: medTitle,
+                    numPills,
+                    taken,
+                    timeTaken,
+                  } = medication;
                   return (
                     <ListItem
                       titleStyle={styles.medicationItem}
                       key={id}
-                      bottomDivider
+                      topDivider
                       title={
                         <TouchableOpacity onPress={null}>
                           <View
@@ -112,7 +183,22 @@ export default function DailySchedule() {
                                 style={{ marginRight: 20 }}
                               >{`${medTitle} - (${numPills} pills)`}</Text>
                               {taken ? (
-                                <Icon name="checkbox" type="foundation" />
+                                <View
+                                  style={{
+                                    flex: 1,
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                  }}
+                                >
+                                  <Icon
+                                    name="checkbox"
+                                    type="foundation"
+                                    color="green"
+                                  />
+                                  <Text style={{ marginLeft: 5 }}>
+                                    Taken @ {timeTaken.format('h:m A')}
+                                  </Text>
+                                </View>
                               ) : null}
                             </View>
                             <View>
@@ -127,9 +213,18 @@ export default function DailySchedule() {
                                     title="Just Took It"
                                     buttonStyle={styles.buttonStyle}
                                     titleStyle={styles.buttonTextStyle}
+                                    onPress={() =>
+                                      handleMedTakenChange({
+                                        taken: true,
+                                        item,
+                                        index,
+                                        medication,
+                                        medIndex,
+                                      })
+                                    }
                                   />
                                   <Button
-                                    title="Took It Earlier"
+                                    title="Took It Earlier / Later"
                                     buttonStyle={styles.buttonStyle}
                                     titleStyle={styles.buttonTextStyle}
                                   />
@@ -147,9 +242,18 @@ export default function DailySchedule() {
                                   }}
                                 >
                                   <Button
-                                    title="Edit"
+                                    title="Undo Taken"
                                     buttonStyle={styles.buttonStyle}
                                     titleStyle={styles.buttonTextStyle}
+                                    onPress={() =>
+                                      handleMedTakenChange({
+                                        taken: false,
+                                        item,
+                                        index,
+                                        medication,
+                                        medIndex,
+                                      })
+                                    }
                                   />
                                   <Button
                                     title="Add Note"

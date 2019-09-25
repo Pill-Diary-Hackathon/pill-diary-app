@@ -40,7 +40,9 @@ class Wizard extends PureComponent {
   };
 
   _onSubmit = () => {
-    Alert.alert(JSON.stringify(this.state.values));
+    // Alert.alert(JSON.stringify(this.state.values));
+    console.log(this.state.values);
+    Alert.alert('Thanks!');
   };
 
   render() {

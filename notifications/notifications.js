@@ -3,7 +3,7 @@ import { Notifications } from 'expo';
 const takeMedsActions = [
   {
     actionId: 'took',
-    buttonTitle: 'Took It!',
+    buttonTitle: 'Took Them All!',
     isDestructive: false,
     isAuthenticationRequired: false,
     screen: 'Links',
@@ -17,7 +17,7 @@ const takeMedsActions = [
   },
   {
     actionId: 'view',
-    buttonTitle: 'View in App',
+    buttonTitle: 'View/Edit',
     isDestructive: false,
     isAuthenticationRequired: false,
     screen: 'Links',
@@ -39,8 +39,9 @@ export const setupNotificationResponses = async navigate => {
 
 export const notificationTest = async () => {
   const localNotification = {
-    title: "It's time to take your medication :)",
-    body: 'Drug 1\nDrug2',
+    title: 'Good afternoon!',
+    body:
+      "It's time to take your medications:\nTemozolomide (2 pills)\nRegorafanib (1 pill)",
     categoryId: 'ps1',
     android: { sticky: false },
     data: {},
