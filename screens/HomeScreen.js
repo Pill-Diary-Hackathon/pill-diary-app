@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import Constants from 'expo-constants';
 import { Header, Icon, Button } from 'react-native-elements';
 import { MonoText } from '../components/StyledText';
 import { MedicationList } from '../components/MedicationList';
@@ -22,19 +23,25 @@ import axios from 'axios';
 
 export default function HomeScreen() {
   const [user, setUser] = useGlobal('user');
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(
-          'http://172.18.229.106:5000/api/Patient'
-        );
-        console.log(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const api =
+  //         typeof Constants.manifest.packagerOpts === `object` &&
+  //         Constants.manifest.packagerOpts.dev
+  //           ? Constants.manifest.debuggerHost
+  //               .split(`:`)
+  //               .shift()
+  //               .concat(`:5000`)
+  //           : `api.example.com`;
+  //       const { data } = await axios.get(`${api}:/api/Patient`);
+  //       console.log(api);
+  //     } catch (err) {
+  //       console.error(err);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
   const { navigate } = useNavigation();
   useEffect(() => {
     setupNotificationResponses(navigate);
